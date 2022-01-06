@@ -6,7 +6,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
-	"strings"
 	"testing"
 )
 
@@ -56,7 +55,7 @@ func TestTodoCLI(t *testing.T) {
 	// to see the results. Also, we're executing the compiled binary with the expected argument by splitting the
 	// task variable. The test fails if an error occurs while adding the task.
 	t.Run("AddNewTask", func(t *testing.T) {
-		cmd := exec.Command(cmdPath, strings.Split(task, " ")...)
+		cmd := exec.Command(cmdPath, "-task", task)
 		if err := cmd.Run(); err != nil {
 			t.Fatal(err)
 		}
@@ -67,7 +66,7 @@ func TestTodoCLI(t *testing.T) {
 	// the tool. If the execution succeeds, we compare the output with the task name, failing the test if they
 	// don't match.
 	t.Run("ListTasks", func(t *testing.T) {
-		cmd := exec.Command(cmdPath)
+		cmd := exec.Command(cmdPath, "-list")
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatal(err)
